@@ -21,6 +21,8 @@ char	**ft_split(char *str, char sep);
 int     ft_strncmp(char *str1, char *str2, char max);
 
 void	add_cmd(t_lst **lst_cmd, int type, char **args);
+void    free_lst(t_lst *lst);
+
 
 int		has_pipe(char *str);
 void	parse_pipe(t_lst **lst_cmd, char *current);

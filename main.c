@@ -90,17 +90,22 @@ int 	main(int ac, char **av)
 {
 	char 	*cmd;
 	t_lst	*lst_cmd;
+	t_lst	*save;
 	int		ret;
 
 	cmd = get_cmd(ac, av);
 	if (cmd)
 	{
 		parse_cmd(&lst_cmd, cmd);
+		save = lst_cmd;
 		while (lst_cmd)
 		{
 			ret = launch_cmd(lst_cmd);
 			lst_cmd = lst_cmd->next;
 		}
+		free(cmd);
+		free_lst(save);
 	}
+	system("leaks a.out");
 	return (0);
 }

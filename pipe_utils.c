@@ -22,9 +22,14 @@ void	parse_pipe(t_lst **lst_cmd, char *current)
 	while (cmds[i])
 	{
 		args = ft_split(cmds[i], ' ');
-		add_cmd(lst_cmd, BIN, args);
+		if (!ft_strncmp(args[0], "cd", 2))
+			add_cmd(lst_cmd, CD, args);
+		else
+			add_cmd(lst_cmd, BIN, args);
 		if (cmds[i + 1])
 			add_cmd(lst_cmd, PIPE, NULL);
+		free(cmds[i]);
 		i++;
 	}
+	free(cmds);
 }	

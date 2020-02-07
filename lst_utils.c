@@ -30,3 +30,24 @@ void	add_cmd(t_lst **lst_cmd, int type, char **args)
 	else
 		*lst_cmd = to_add;
 }
+
+void	free_lst(t_lst *lst)
+{
+	int i;
+
+	while (lst)
+	{
+		if (lst->type != PIPE)
+		{
+			i = 0;
+			while (lst->args[i])
+			{
+				free(lst->args[i]);
+				i++;
+			}
+			free(lst->args);
+		}
+		free(lst);
+		lst = lst->next;
+	}
+}
