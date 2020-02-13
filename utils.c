@@ -1,72 +1,64 @@
 #include "header.h"
 
-int		ft_strlen(char *str)
+int     ft_strlen(char *str)
 {
-	int i;
+    int i;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+    i = 0;
+    while (str[i])
+        i++;
+    return (i);
 }
 
-char	*ft_strjoin(char *str1, char *str2)
+void    ft_putstr(char *str)
 {
-	char	*result;
-	int		len1;
-	int		len2;
-	int		i;
-	int		j;
-
-	len1 = str1 ? ft_strlen(str1) : 0;
-	len2 = str2 ? ft_strlen(str2) : 0;
-	if (!(result = malloc(sizeof(char) * (len1 + len2 + 1))))
-		return (NULL);
-	i = 0;
-	while (i < len1)
-	{
-		result[i] = str1[i];
-		i++;
-	}
-	j = 0;
-	while (j < len2)
-	{
-		result[i + j] = str2[j];
-		j++;
-	}
-	result[i + j] = '\0';
-	return (result);
+    write(2, str, ft_strlen(str));
 }
 
-char	*ft_substr(char *str, int len)
+int     ispipe(char *str)
 {
-	char	*result;
-	int		length;
-	int		i;
-
-	length = (len > ft_strlen(str)) ? ft_strlen(str) : len;
-	if (!(result = malloc(sizeof(char) * (length + 1))))
-		return (NULL);
-	i = 0;
-	while (i < length)
-	{
-		result[i] = str[i];
-		i++;
-	}
-	result[i] = '\0';
-	return (result);
+    if (str && ft_strlen(str) == 1 && str[0] == '|')
+        return (1);
+    return (0);
 }
 
-int		ft_strncmp(char *str1, char *str2, char max)
+int     issep(char *str)
 {
-	int i;
+    if (str && ft_strlen(str) == 1 && str[0] == ';')
+        return (1);
+    return (0);
+}
 
-	i = 0;
-	while (str1[i] && i < max)
-	{
-		if (str1[i] != str2[i])
-			return (1);
-		i++;
-	}
-	return (0);
+t_lst   *new_cmd(int type, char **args)
+{
+    t_lst   *new;
+
+    if (!(new = malloc(sizeof(t_lst))))
+        return (NULL);
+    new->type = type;
+    new->args = args;
+    new->prev = NULL;
+    new->next = NULL;
+    return (new);
+}
+
+int     add_cmd(t_lst **lst, int type, char **args)
+{
+    t_lst   *begin;
+    t_lst   *to_add;
+
+    begin = *lst;
+    to_add = new_cmd(type, args);
+    if (!to_add)
+        return (1);
+    if (begin)
+    {
+        while (begin->next)
+            begin = begin->next;
+        to_add->prev = begin;
+        begin->next = to_add;
+    }
+    else
+        *lst = to_add;
+    return (0);
 }

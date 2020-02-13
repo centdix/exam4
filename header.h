@@ -1,31 +1,25 @@
-#include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
-#define BIN 1
-#define CD 2
-#define PIPE 3
+#define BIN 2
+#define CD 3
+#define PIPE 4
 
-typedef struct	s_lst
+typedef struct  s_lst
 {
-	int		type;
-	char	**args;
-	int		pipes[2];
-	void	*prev;
-	void	*next;
-}				t_lst;
+    int     type;
+    int     pipes[2];
+    char    **args;
+    void    *prev;
+    void    *next;
+}               t_lst;
 
-char	*ft_strjoin(char *str1, char *str2);
-char	*ft_substr(char *str, int len);
-char	**ft_split(char *str, char sep);
-int     ft_strncmp(char *str1, char *str2, char max);
-
-void	add_cmd(t_lst **lst_cmd, int type, char **args);
-void    free_lst(t_lst *lst);
-
-
-int		has_pipe(char *str);
-void	parse_pipe(t_lst **lst_cmd, char *current);
-
-int     run_bin(char **args);
+int     ft_strlen(char *str);
+int     ispipe(char *str);
+int     issep(char *str);
+void    ft_putstr(char *str);
+int     add_cmd(t_lst **lst, int type, char **args);
 int     run_cd(char **args);
+int     run_bin(t_lst *lst);
